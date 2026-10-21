@@ -1,92 +1,311 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>SoundMax</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark">
+    <title>SoundMax — High Fidelity Acoustic Experience</title>
+    <!-- Dealt font: Erode serif display from Fontshare -->
+    <link rel="preconnect" href="https://api.fontshare.com">
+    <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+    <link href="https://api.fontshare.com/v2/css?f[]=erode@400,500,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="header">
-        <h1>SoundMax</h1>
-        <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#features">Features</a></li>
-            <li><a href=" #pricing">Pricing</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </div>
-    <div class="content" id="home">
-        <div>
-            <h1>Experience Pure Sound</h1>
-            <p>Premium wireless headphones with noise cancellation and 30hr battery life.</p>
-            <a href="#">Buy Now</a>
-        </div>
-        <img src="image/headphone.avif">
-    </div>
-    <div class="Features" id="features">
-        <h2>Features</h2>
-        <div class="f_cont">
-            <div class="box">
-                <h3>Noise Cancellation</h3>
-                <p>Block the unwanted noise and enjoy best sound.</p>
+    <!-- Header Navigation -->
+    <header class="header">
+        <a href="#home" class="logo">SoundMax</a>
+        <nav class="nav-menu" aria-label="Main navigation">
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#player">Player</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <a href="#pricing" class="btn btn-sm btn-accent header-cta">Order Now</a>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="content hero-section" id="home">
+            <div class="hero-text animate-enter">
+                <h1>Experience Pure Sound</h1>
+                <p class="hero-desc">Premium wireless headphones with active noise cancellation and 30hr battery life.</p>
+                <div class="hero-actions">
+                    <a href="#player" id="hero-listen-btn" class="btn btn-accent">Listen Live Demo</a>
+                    <a href="#pricing" class="btn btn-surface">Buy Now</a>
+                </div>
             </div>
-            <div class="box">
-                <h3>30 hour Battery</h3>
-                <p>Long-lasting battery for full-day listening.</p>
+            <div class="hero-visual animate-enter">
+                <img src="image/headphone.avif" alt="SoundMax Wireless Headphones" class="hero-image">
             </div>
-            <div class="box1">
-                <h3>Premium Design</h3>
-                <p>Comfortable fit with stylish look.</p>
+        </section>
+
+        <!-- Interactive Music Player & Soundboard -->
+        <section class="player-section" id="player">
+            <div class="section-header animate-enter">
+                <div class="section-title-wrap">
+                    <h2>Acoustic Soundboard</h2>
+                    <p class="section-lead">Test four curated sound profiles tuned for reference driver fidelity.</p>
+                </div>
+                <span class="section-badge">SoundMax Acoustic Lab</span>
             </div>
-        </div>
-    </div>
-    <div class="Pricing" id="pricing">
-        <h2>Pricing</h2>
-        <div class="pric">
-            <div class="box2">
-                <h3>Basic</h3>
-                <h2>$99</h2>
-                <button>Select</button>
+
+            <!-- Master Interactive Player Dock -->
+            <div class="player-dock animate-enter" data-ui>
+                <div class="player-demo-notice">
+                    <span id="player-demo-badge" class="demo-badge">Demo Synthesizer Audio (Add MP3 in player.js)</span>
+                </div>
+
+                <div class="player-main-row">
+                    <div class="player-track-info">
+                        <img id="player-track-cover" src="image/album-midnight.png" alt="Current album artwork" class="player-cover">
+                        <div class="player-track-meta">
+                            <h3 id="player-track-title">Midnight Odyssey</h3>
+                            <p id="player-track-artist">SoundMax Acoustic Lab</p>
+                            <span id="player-track-format" class="format-tag">FLAC 96kHz · 24-bit</span>
+                        </div>
+                    </div>
+
+                    <div class="player-visualizer-wrap">
+                        <canvas id="visualizer-canvas" class="visualizer-canvas"></canvas>
+                    </div>
+
+                    <div class="player-controls-group">
+                        <div class="player-buttons">
+                            <button id="prev-btn" class="control-btn" aria-label="Previous track">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                                    <line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="2.5"></line>
+                                </svg>
+                            </button>
+                            <button id="play-btn" class="control-btn play-main-btn" aria-label="Play or pause track">
+                                <svg id="play-icon" width="20" height="20" viewBox="0 0 24 24">
+                                    <polygon points="5 3 19 12 5 21 5 3" fill="currentColor"></polygon>
+                                </svg>
+                            </button>
+                            <button id="next-btn" class="control-btn" aria-label="Next track">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                                    <line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2.5"></line>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="player-volume-control">
+                            <button id="volume-btn" class="volume-btn" aria-label="Mute or unmute">
+                                <svg id="volume-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07" fill="none" stroke="currentColor" stroke-width="2"></path>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14" fill="none" stroke="currentColor" stroke-width="2"></path>
+                                </svg>
+                            </button>
+                            <input type="range" id="player-volume" class="volume-slider" min="0" max="100" value="80" aria-label="Volume slider">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Scrubber -->
+                <div class="player-timeline-row">
+                    <span id="player-current-time" class="time-label">0:00</span>
+                    <div class="progress-container">
+                        <div id="player-progress-fill" class="progress-fill"></div>
+                        <input type="range" id="player-progress" class="progress-range" min="0" max="100" value="0" step="0.1" aria-label="Audio timeline seek">
+                    </div>
+                    <span id="player-total-time" class="time-label">3:42</span>
+                </div>
             </div>
-            <div class="box2">
-                <h3>Pro</h3>
-                <h2>$149</h2>
-                <button>Select</button>
+
+            <!-- Curated Sound Profiles Tracklist -->
+            <div class="tracklist-container">
+                <article class="track-row is-active animate-enter" data-index="0">
+                    <img src="image/album-midnight.png" alt="Midnight Odyssey cover art" class="track-art" width="140" height="140">
+                    <div class="track-details">
+                        <h3>Midnight Odyssey</h3>
+                        <p class="track-artist">SoundMax Acoustic Lab</p>
+                        <p class="track-desc">Deep sub-bass drone with crystal harmonic overtone testing.</p>
+                    </div>
+                    <div class="track-meta-wrap">
+                        <span class="track-genre">Spatial Ambient</span>
+                        <span class="track-format">FLAC 96kHz</span>
+                        <span class="track-time">3:42</span>
+                        <button class="btn btn-sm btn-accent track-play-state">Playing</button>
+                    </div>
+                </article>
+
+                <article class="track-row animate-enter" data-index="1">
+                    <img src="image/album-resonance.png" alt="Resonance No. 4 cover art" class="track-art" width="140" height="140">
+                    <div class="track-details">
+                        <h3>Resonance No. 4</h3>
+                        <p class="track-artist">Elysian Chamber Strings</p>
+                        <p class="track-desc">Wide stereo separation and acoustic string resonance.</p>
+                    </div>
+                    <div class="track-meta-wrap">
+                        <span class="track-genre">Neo-Classical</span>
+                        <span class="track-format">DSD 5.6MHz</span>
+                        <span class="track-time">4:15</span>
+                        <button class="btn btn-sm btn-surface track-play-state">Play</button>
+                    </div>
+                </article>
+
+                <article class="track-row animate-enter" data-index="2">
+                    <img src="image/album-subzero.png" alt="Sub-Zero Wave cover art" class="track-art" width="140" height="140">
+                    <div class="track-details">
+                        <h3>Sub-Zero Wave</h3>
+                        <p class="track-artist">Kroma Electronics</p>
+                        <p class="track-desc">Low-frequency transient response with tight punch.</p>
+                    </div>
+                    <div class="track-meta-wrap">
+                        <span class="track-genre">Sub-Bass Synth</span>
+                        <span class="track-format">Studio WAV</span>
+                        <span class="track-time">2:58</span>
+                        <button class="btn btn-sm btn-surface track-play-state">Play</button>
+                    </div>
+                </article>
+
+                <article class="track-row animate-enter" data-index="3">
+                    <img src="image/album-velvet.png" alt="Velvet Groove cover art" class="track-art" width="140" height="140">
+                    <div class="track-details">
+                        <h3>Velvet Groove</h3>
+                        <p class="track-artist">Saffron Soul Quintet</p>
+                        <p class="track-desc">Silky vocal mids and warm analog harmonic saturation.</p>
+                    </div>
+                    <div class="track-meta-wrap">
+                        <span class="track-genre">Warm Analog</span>
+                        <span class="track-format">Master Tape</span>
+                        <span class="track-time">3:30</span>
+                        <button class="btn btn-sm btn-surface track-play-state">Play</button>
+                    </div>
+                </article>
             </div>
-            <div class="box2">
-                <h3>Ultra</h3>
-                <h2>$199</h2>
-                <button>Select</button>
+        </section>
+
+        <!-- Features Section -->
+        <section class="Features features-section" id="features">
+            <div class="section-header animate-enter">
+                <div class="section-title-wrap">
+                    <h2>Acoustic Precision</h2>
+                    <p class="section-lead">Engineered to isolate pure acoustics and eliminate background distraction.</p>
+                </div>
+                <span class="section-badge">Reference Tuning</span>
             </div>
-        </div>
-    </div>
-    <div class="footer" id="contact">
-        <div class="f_con">
-            <div class="f_box">
-                <h3>SoundMax</h3>
-                <p>Premium wireless headphones designed for immersive sound experience</p>
+            <div class="features-editorial-grid">
+                <div class="feature-flagship animate-enter">
+                    <div class="feature-inner">
+                        <h3>Noise Cancellation</h3>
+                        <p>Block the unwanted noise and enjoy best sound. Triple-sensor microphones filter 40dB of ambient frequency so you focus solely on every nuanced note.</p>
+                    </div>
+                </div>
+                <div class="feature-sub animate-enter">
+                    <div class="feature-inner">
+                        <h3>30 hour Battery</h3>
+                        <p>Long-lasting battery for full-day listening. Intelligent power management keeps music streaming continuously, with 5-minute quick charging.</p>
+                    </div>
+                </div>
+                <div class="feature-sub animate-enter">
+                    <div class="feature-inner">
+                        <h3>Premium Design</h3>
+                        <p>Comfortable fit with stylish look. Titanium headband and breathable memory-foam ear cups engineered for hours of continuous fatigue-free audio.</p>
+                    </div>
+                </div>
             </div>
-            <div class="f_box">
+        </section>
+
+        <!-- Pricing Section -->
+        <section class="Pricing pricing-section" id="pricing">
+            <div class="section-header animate-enter">
+                <div class="section-title-wrap">
+                    <h2>Studio Pricing</h2>
+                    <p class="section-lead">Choose your listening grade with full warranty and 30-day acoustic trial.</p>
+                </div>
+                <span class="section-badge">30-Day Sound Guarantee</span>
+            </div>
+            <div class="pricing-cards-grid">
+                <div class="pricing-card animate-enter">
+                    <div class="pricing-tier-head">
+                        <h3>Basic</h3>
+                        <div class="pricing-amount">$99</div>
+                    </div>
+                    <p class="tier-summary">Pure wireless sound for everyday listening.</p>
+                    <ul class="tier-features">
+                        <li>Standard 40mm Dynamic Drivers</li>
+                        <li>Passive Acoustic Isolation</li>
+                        <li>20-Hour Battery Life</li>
+                        <li>Braided USB-C Cable</li>
+                    </ul>
+                    <button class="btn btn-surface btn-tier">Select</button>
+                </div>
+
+                <div class="pricing-card is-popular animate-enter">
+                    <div class="pricing-tier-head">
+                        <h3>Pro — Reference</h3>
+                        <div class="pricing-amount">$149</div>
+                    </div>
+                    <p class="tier-summary">Our most popular reference standard for audiophiles.</p>
+                    <ul class="tier-features">
+                        <li>Titanium-Coated 40mm Drivers</li>
+                        <li>40dB Active Noise Cancellation</li>
+                        <li>30-Hour Ultra Battery + Fast Charge</li>
+                        <li>Hard Travel Vault & 3.5mm Cable</li>
+                    </ul>
+                    <button class="btn btn-accent btn-tier">Select</button>
+                </div>
+
+                <div class="pricing-card animate-enter">
+                    <div class="pricing-tier-head">
+                        <h3>Ultra</h3>
+                        <div class="pricing-amount">$199</div>
+                    </div>
+                    <p class="tier-summary">Uncompromising studio-grade sound reproduction.</p>
+                    <ul class="tier-features">
+                        <li>Dual Beryllium Driver Acoustic Array</li>
+                        <li>Adaptive Spatial Room Calibration</li>
+                        <li>35-Hour Battery Life</li>
+                        <li>Precision Aluminum Travel Case & DAC</li>
+                    </ul>
+                    <button class="btn btn-surface btn-tier">Select</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer & Contact Section -->
+    <footer class="footer contact-section" id="contact">
+        <div class="footer-container">
+            <div class="footer-brand-column animate-enter">
+                <span class="footer-brand-title">SoundMax</span>
+                <p class="footer-brand-desc">Premium wireless headphones designed for immersive sound experience.</p>
+            </div>
+            <div class="footer-links-column animate-enter">
                 <h3>Quick Links</h3>
-                <a href="#home">Home</a>
-                <a href="#features">Features</a>
-                <a href=" #pricing">Pricing</a>
-                <a href="#contact">Contact</a>
+                <nav aria-label="Footer links">
+                    <ul class="footer-nav">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#player">Player</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
             </div>
-            <div class="f_box">
+            <div class="footer-contact-column animate-enter">
                 <h3>Contact</h3>
-                <p style="cursor: pointer;">Email: support@soundmax.com</p>
-                <p style="cursor: pointer;">Phone: +91 44001 23231</p>
+                <p class="contact-line">Email: <a href="mailto:support@soundmax.com">support@soundmax.com</a></p>
+                <p class="contact-line">Phone: <a href="tel:+914400123231">+91 44001 23231</a></p>
+                <p class="contact-note">Acoustic Support · 24/7 Global Assistance</p>
             </div>
         </div>
         <div class="cr">
-            <!-- &#169; 2026 SoundMax | All Rights Reserved -->
             &copy; 2026 SoundMax | All Rights Reserved
         </div>
-    </div>
+    </footer>
+
+    <!-- Audio Player Logic -->
+    <script src="player.js"></script>
 </body>
 
 </html>
